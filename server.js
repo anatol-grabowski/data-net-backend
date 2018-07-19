@@ -1,20 +1,28 @@
 const express = require('express')
+const cors = require('cors')
+const bodyParser = require('body-parser')
 const fs = require('fs')
 
 const app = express()
-const port = 8080
+app.use(cors())
+app.use(bodyParser.json())
+
+const port = process.env.PORT || 8080
 app.listen(port, () => {
   console.log(`listening at ${port}`)
 })
 
 app.get('/graph', (req, res) => {
+  console.log('get')
   const jsonGraph = loadGraph()
-  res.json(jsonGraph)
+  console.log(jsonGraph)
+  res.json({graph: jsonGraph})
 })
 
 app.post('/graph', (req, res) => {
-  const jsonGraph = saveGraph(req.graph)
-  res.end({saved: true})
+  console.log('post', req.body)
+  const jsonGraph = saveGraph(req.body.graph)
+  res.json({saved: true})
 })
 
 const filename = 'graph.json'
@@ -24,7 +32,7 @@ function loadGraph() {
     const jsonGraph = JSON.parse(fileContent)
     return jsonGraph
   } catch (err) {
-    return []
+    return {nodes: [], edges: []}
   }
 }
 
