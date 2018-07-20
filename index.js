@@ -7,7 +7,7 @@ async function init() {
 
   await mongo.connect(mongodbUrl)
   console.log(`connected to mongo at ${mongodbUrl}`)
-  await server.listen(port)
+  await server.listen(serverPort)
   console.log(`started server at ${serverPort}`)
 }
 
