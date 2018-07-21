@@ -1,7 +1,8 @@
 const { mongo } = require('./db/mongo')
 const { server } = require('./api/server')
 
-async function init() {
+async function start() {
+  console.log('starting')
   const serverPort = process.env.PORT || 8080
   const mongodbUrl = process.env.MONGODB_URI || "mongodb://localhost:27017/graphs"
 
@@ -11,7 +12,7 @@ async function init() {
   console.log(`started server at ${serverPort}`)
 }
 
-init()
+start()
 .catch(err => {
   console.log(err)
   process.exit(1)
