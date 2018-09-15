@@ -6,16 +6,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "watch": "nodemon index.js"
+    "watch": "nodemon -r dotenv/config index.js dotenv_config_path=./.env"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "dropbox": "^4.0.9",
+    "dropbox-stream": "^2.0.0",
     "express": "^4.16.3",
     "express-async-handler": "^1.1.4",
     "formidable": "^1.2.1",
+    "isomorphic-fetch": "^2.2.1",
     "mongodb": "^3.1.1",
     "redirect-form-data-files": "^1.0.0"
   },
