@@ -16,6 +16,7 @@
     "dotenv": "^6.0.0",
     "dropbox": "^4.0.9",
     "dropbox-stream": "^2.0.0",
+    "events-awaiter": "^1.0.0",
     "express": "^4.16.3",
     "express-async-handler": "^1.1.4",
     "formidable": "^1.2.1",
