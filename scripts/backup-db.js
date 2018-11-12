@@ -26,7 +26,7 @@ async function mongoexportCollection(dbUri, collection, filename) {
 
 async function backup() {
   const mongodbUri = process.env.MONGODB_URI
-  const outFilename = process.argv[2] || path.join('backup', `graphs-${new Date().toISOString()}.json`)
+  const outFilename = process.argv[2] || path.join('backups', `graphs-${new Date().toISOString()}.json`)
   await mongoexportCollection(mongodbUri, 'graphs', outFilename)
 }
 
