@@ -1,4 +1,4 @@
-const { start } = require('./lib/datanet-backend')
+const { start } = require('./datanet-backend')
 
 start()
   .catch(err => {

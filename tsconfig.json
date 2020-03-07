@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "allowJs": true,
+    "noImplicitAny": false,
+    "incremental": false,
+    "strict": true,
+    "listEmittedFiles": true,
+    "outDir": "./build"
+  },
+  "include": [
+    "src"
+  ]
+}

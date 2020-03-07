@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
+const AuthService = require('../../modules/auth')
 
 function getUsrPswFromAuthHeader(authorizationHeader) {
   if (!authorizationHeader) return

@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "watch": "nodemon -r dotenv/config index.js dotenv_config_path=./.env",
+    "build": "tsc",
+    "clean": "rm -rf ./build",
+    "start": "node build/index.js",
+    "watch": "nodemon --ext js,ts,json --watch . --exec ts-node -r dotenv/config ./src/index.js dotenv_config_path=./.env",
     "backup": "node -r dotenv/config scripts/backup-db.js"
   },
   "author": "",
@@ -28,7 +30,10 @@
     "redirect-form-data-files": "^1.0.0"
   },
   "devDependencies": {
+    "@types/node": "^13.9.0",
     "eslint": "^5.2.0",
-    "nodemon": "^1.18.3"
+    "nodemon": "^1.18.3",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.3"
   }
 }

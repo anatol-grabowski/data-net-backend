@@ -15,7 +15,7 @@ services:
     entrypoint: npm run watch
 
   datanet-frontend:
-    # use stretch i.o. alpine to be able to be able to use architecture specific node-sass binary
+    # use stretch i.o. alpine to be able to use OS dependent node-sass binary from host
     image: node:12.16.0-stretch-slim
     ports:
     - "3000:3000"
