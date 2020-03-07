@@ -18,7 +18,7 @@ app.use(requestLoggerMiddleware)
 app.use(authMiddlewareRouter)
 
 app.use('/auth', authRouter)
-app.use('/status', statusRouter)
+// app.use('/status', statusRouter)
 app.use('/graph', graphRouter)
 // app.use('/graphFile', require('./routers/graph-file.router').graphRouter)
 app.use('/attachment', uploadRouter)
