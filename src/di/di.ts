@@ -22,7 +22,9 @@ export interface Providers {
 export interface Module {
   name?: string,
   providers: Providers,
-  submodules?: Submodule[],
+  submodules?: Module[],
+  imports?: Imports,
+  exports?: Exports,
 }
 
 export interface Imports {
@@ -30,11 +32,6 @@ export interface Imports {
 }
 
 export type Exports = Imports
-
-export interface Submodule extends Module {
-  imports?: Imports,
-  exports?: Exports,
-}
 
 export interface ProcessedProvider {
   module: ProcessedModule,
@@ -64,7 +61,7 @@ interface ProcessedModule {
   exports: Exports,
 }
 
-export function processModuleRecursive(mod: Submodule, parentModule: ProcessedModule | null = null): ProcessedModule {
+export function processModuleRecursive(mod: Module, parentModule: ProcessedModule | null = null): ProcessedModule {
   const pMod: ProcessedModule = {
     name: mod.name || '<unnamed>',
     parentModule,
