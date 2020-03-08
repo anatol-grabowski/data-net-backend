@@ -1,16 +1,11 @@
 import { MongodbService } from './services/connection.service'
 
 export const MongodbModule = {
-  name: 'mongodb',
-  imports: [
-    'connectionUrl',
-  ],
+  name: 'Mongodb',
   providers: {
-    'mongodb-config': null,
+    'config': null,
     'mongodbSvc': {
-      dependencies: [
-        'mongodb-config',
-      ],
+      dependencies: ['config'],
       create: async (config) => {
         const mongoSvc = new MongodbService()
         await mongoSvc.connect(config.mongodbUrl)
@@ -18,7 +13,10 @@ export const MongodbModule = {
       },
     },
   },
-  exports: [
-    'mongodbSvc',
-  ],
+  imports: {
+    'config': 'config',
+  },
+  exports: {
+    'mongodbSvc': 'mongodbSvc',
+  },
 }

@@ -112,8 +112,14 @@ export function resolveProviderRecursive(
   const errorMsg = `Cannot resolve '${name} @ ${getFullModName(mod)}' provider`
   const prov = mod.providers.find(pr => pr.name === name)
   if (!prov) throw Error(`${errorMsg}, not found in providers list.`)
+  const resolved = map.get(prov)
+  if (resolved) return resolved
   const isVisited = visited.find(v => v === prov)
-  if (isVisited) throw Error(`${errorMsg}, cyclic dependency.`)
+  if (isVisited) {
+    visited.push(prov)
+    const cycle = visited.map(v => `${v.name}@${v.module.name}`).join(' -> ')
+    throw Error(`${errorMsg}, cyclic dependency (${cycle}).`)
+  }
   visited.push(prov)
 
   switch (prov.type) {
@@ -187,10 +193,10 @@ export async function createSvcRecursive(
 ): Promise<Service> {
   const existingSvc = svcMap.get(prov)
   if (existingSvc) {
-    console.log(' '.repeat(depth) + `Reusing existing service ${prov.processedProvider.name} @ ${getFullModName(prov.processedProvider.module)}.`)
+    console.log(' '.repeat(depth) + `Initializing service ${prov.processedProvider.name}@${getFullModName(prov.processedProvider.module)} (reused existing).`)
     return existingSvc
   }
-  console.log(' '.repeat(depth) + `Initializing service ${prov.processedProvider.name} @ ${getFullModName(prov.processedProvider.module)}.`)
+  console.log(' '.repeat(depth) + `Initializing service ${prov.processedProvider.name}@${getFullModName(prov.processedProvider.module)}.`)
   const depSvcs: Service[] = []
   for (const dep of prov.dependencies) {
     const depSvc = await createSvcRecursive(dep, svcMap, depth + 1)

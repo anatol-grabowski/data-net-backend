@@ -1,10 +1,13 @@
 import { config } from './services/config.service'
 
 export const ConfigModule = {
-  name: 'config',
+  name: 'Config',
   providers: {
     'config': {
       create: () => config,
     },
+  },
+  exports: {
+    'config': 'config',
   },
 }

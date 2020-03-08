@@ -1,39 +1,32 @@
-import { MongodbModule } from './mongodb'
-import { UserModule } from './user'
-import { ConfigModule } from './config'
 import { Module } from '../di/di'
 
+import { UserModule } from './user'
+import { ConfigModule } from './config'
+import { ApiModule } from './api'
+import { GraphModule } from './graph'
+import { UploadModule } from './upload'
+
 export const MainModule: Module = {
-  name: 'main',
+  name: 'Main',
   providers: {
-    '_mongodbSvc': null,
     'userRepo': null,
     'config': null,
+    'apiService': null,
+    'routers': {
+      dependencies: ['graphCtl', 'uploadCtl'],
+      create: (graphCtl, uploadCtl) => [
+        graphCtl.router,
+        uploadCtl.router,
+      ],
+    },
+    'graphCtl': null,
+    'uploadCtl': null,
   },
   submodules: [
-    {
-      ...ConfigModule,
-      exports: {
-        'config': 'config',
-      }
-    },
-    {
-      ...MongodbModule,
-      imports: {
-        'mongodb-config': 'config',
-      },
-      exports: {
-        '_mongodbSvc': 'mongodbSvc',
-      },
-    },
-    {
-      ...UserModule,
-      imports: {
-        'mongodbSvc': '_mongodbSvc',
-      },
-      exports: {
-        'userRepo': 'UserRepository',
-      },
-    },
+    ConfigModule,
+    ApiModule,
+    GraphModule,
+    UploadModule,
+    UserModule,
   ],
 }
