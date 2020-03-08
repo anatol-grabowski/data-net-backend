@@ -31,4 +31,4 @@ services:
   datanet-db:
     image: mongo:4.2.3-bionic
     ports:
-    - "27017:27107"
+    - "27017:27017"
