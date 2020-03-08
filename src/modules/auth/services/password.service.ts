@@ -1,8 +1,9 @@
 import * as bcrypt from 'bcrypt'
+import { PasswordServiceInterface } from '../interfaces/password.service.interface'
 
 const saltRounds = 12
 
-export class PasswordService {
+export class PasswordService implements PasswordServiceInterface {
   async hash(plaintextPsw: string): Promise<string> {
     const salt = await bcrypt.genSalt(saltRounds)
     const hashed = await bcrypt.hash(plaintextPsw, salt)
