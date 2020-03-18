@@ -31,7 +31,7 @@ function mapSet(map: Map<ProcessedProvider, ResolvedProvider>, prov: ProcessedPr
     if (mapped.dependencies.length !== resolved.dependencies.length) continue
     const doDepsMatch = mapped.dependencies.every((dep, i) => dep === resolved.dependencies[i])
     if (!doDepsMatch) continue
-    debug(`Provider ${resolved.processedProvider.name} @ ${getModPath(resolved.processedProvider.module)} uses the same dependencies as @ ${getModPath(resolved.processedProvider.module)} (reused)`)
+    debug(`Provider ${resolved.processedProvider.name} @ ${getModPath(resolved.processedProvider.module)} uses the same dependencies as @ ${getModPath(mapped.processedProvider.module)} (reused)`)
     map.set(prov, mapped)
     return mapped
   }
