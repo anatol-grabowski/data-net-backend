@@ -21,6 +21,24 @@ export interface ResolvedProvider {
   dependencies: ResolvedProvider[],
 }
 
+function mapSet(map: Map<ProcessedProvider, ResolvedProvider>, prov: ProcessedProvider, resolved: ResolvedProvider): ResolvedProvider {
+  for (const mapped of map.values()) {
+    if (mapped === resolved) {
+      map.set(prov, resolved)
+      return resolved
+    }
+    if (mapped.processedProvider.rawProvider !== resolved.processedProvider.rawProvider) continue
+    if (mapped.dependencies.length !== resolved.dependencies.length) continue
+    const doDepsMatch = mapped.dependencies.every((dep, i) => dep === resolved.dependencies[i])
+    if (!doDepsMatch) continue
+    debug(`Provider ${resolved.processedProvider.name} @ ${getModPath(resolved.processedProvider.module)} uses the same dependencies as @ ${getModPath(resolved.processedProvider.module)} (reused)`)
+    map.set(prov, mapped)
+    return mapped
+  }
+  map.set(prov, resolved)
+  return resolved
+}
+
 export function resolveProviderRecursive(
   map: Map<ProcessedProvider, ResolvedProvider>,
   mod: ProcessedModule,
@@ -49,8 +67,7 @@ export function resolveProviderRecursive(
       const nameInParent = mod.imports[importName]
       if (!nameInParent) throw Error('nameInParent')
       const resolved = resolveProviderRecursive(map, parentMod, nameInParent, visited)
-      map.set(prov, resolved)
-      return resolved
+      return mapSet(map, prov, resolved)
     }
     case 'internal': {
       const importFrom = (prov.rawProvider as UsedProvider).importFrom
@@ -60,8 +77,7 @@ export function resolveProviderRecursive(
       const nameInChild = childMod.exports[importName]
       if (!nameInChild) throw Error('nameInChild')
       const resolved = resolveProviderRecursive(map, childMod, nameInChild, visited)
-      map.set(prov, resolved)
-      return resolved
+      return mapSet(map, prov, resolved)
     }
     case 'local': {
       const dependencies = ((prov.rawProvider as LocalProvider).dependencies || [])
@@ -70,8 +86,7 @@ export function resolveProviderRecursive(
         processedProvider: prov,
         dependencies,
       }
-      map.set(prov, resolved)
-      return resolved
+      return mapSet(map, prov, resolved)
     }
   }
 }
