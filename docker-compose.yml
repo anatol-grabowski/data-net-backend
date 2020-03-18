@@ -10,6 +10,7 @@ services:
     depends_on:
     - datanet-db
     environment:
+    - DEBUG
     - MONGODB_URI=mongodb://datanet-db:27017/graphs
     working_dir: /app
     entrypoint: npm run watch

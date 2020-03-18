@@ -1,11 +1,13 @@
 import { ApiService } from './services/api.service'
+import { Module } from '../../di'
 
-export const ApiModule = {
+export const ApiModule: Module = {
   name: 'Api',
   providers: {
-    'routers': null,
-    'config': null,
+    'routers': { importFrom: null },
+    'config': { importFrom: null },
     'apiService': {
+      doExport: true,
       dependencies: ['config', 'routers'],
       create: async (config, routers) => {
         const api = new ApiService(config, routers)
@@ -13,12 +15,5 @@ export const ApiModule = {
         return api
       },
     },
-  },
-  imports: {
-    'routers': 'routers',
-    'config': 'config',
-  },
-  exports: {
-    'apiService': 'apiService',
   },
 }

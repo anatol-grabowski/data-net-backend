@@ -1,23 +1,25 @@
 import { GraphController } from './services/graph.controller'
 import { MongodbModule } from '../mongodb'
+import { Module } from '../../di'
 
-export const GraphModule = {
+export const GraphModule: Module = {
   name: 'Graph',
   providers: {
-    'config': null,
-    'mongodbSvc': null,
+    'config': {
+      importFrom: null,
+    },
+    'mongodbSvc': {
+      importFrom: 'Mongodb',
+    },
     'graphCtl': {
+      doExport: true,
       dependencies: ['mongodbSvc'],
-      create: (mongo) => new GraphController(mongo),
+      create: (mongodbSvc) => new GraphController(mongodbSvc),
     },
   },
-  submodules: [
-    MongodbModule,
-  ],
-  imports: {
-    'config': 'config',
-  },
-  exports: {
-    'graphCtl': 'graphCtl',
+  submodules: {
+    'Mongodb': {
+      module: MongodbModule,
+    },
   },
 }

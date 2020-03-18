@@ -9,9 +9,9 @@ import { UploadModule } from './upload'
 export const MainModule: Module = {
   name: 'Main',
   providers: {
-    'userRepo': null,
-    'config': null,
-    'apiService': null,
+    'userRepo': { importFrom: 'User' },
+    'config': { importFrom: 'Config' },
+    'apiService': { importFrom: 'Api' },
     'routers': {
       dependencies: ['graphCtl', 'uploadCtl'],
       create: (graphCtl, uploadCtl) => [
@@ -19,14 +19,14 @@ export const MainModule: Module = {
         uploadCtl.router,
       ],
     },
-    'graphCtl': null,
-    'uploadCtl': null,
+    'graphCtl': { importFrom: 'Graph' },
+    'uploadCtl': { importFrom: 'Upload' },
   },
-  submodules: [
-    ConfigModule,
-    ApiModule,
-    GraphModule,
-    UploadModule,
-    UserModule,
-  ],
+  submodules: {
+    'Config': { module: ConfigModule },
+    'Api': { module: ApiModule },
+    'Graph': { module: GraphModule },
+    'Upload': { module: UploadModule },
+    'User': { module: UserModule },
+  },
 }

@@ -1,25 +1,20 @@
 import { UserRepository } from './services/user.repository'
 import { MongodbModule } from '../mongodb'
+import { Module } from '../../di'
 
-export const UserModule = {
-  name: 'User',
+export const UserModule: Module = {
   providers: {
-    'config': null,
-    'mongodbSvc': null,
+    'config': { importFrom: null },
+    'mongodbSvc': { importFrom: 'Mongodb' },
     'userRepo': {
+      doExport: true,
       dependencies: [
         'mongodbSvc',
       ],
       create: (mongodbSvc) => new UserRepository(mongodbSvc.db),
     },
   },
-  submodules: [
-    MongodbModule,
-  ],
-  imports: {
-    'config': 'config',
-  },
-  exports: {
-    'userRepo': 'userRepo',
+  submodules: {
+    'Mongodb': { module: MongodbModule },
   },
 }

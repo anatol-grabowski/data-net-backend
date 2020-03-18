@@ -41,15 +41,8 @@ const MainMod: Module = {
 
 async function main() {
   console.log(JSON.stringify(MainMod, null, 2))
-  const procMod = processModuleRecursive(MainMod)
-  console.log(procMod)
-
-  const res = resolveModule(MainMod)
-  console.log(res)
-  console.log(res.map(r => depsToStr(r)).join('\n'))
-  const mod = await initModule(MainMod)
-  console.log(mod)
-  await mod.services.UserRepository.create()
+  const resolved = await initModule(MainMod)
+  console.log(resolved)
 }
 
 main()

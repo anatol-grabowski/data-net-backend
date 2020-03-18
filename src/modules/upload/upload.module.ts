@@ -1,23 +1,19 @@
 import { UploadController } from './services/upload.controller'
 import { DropboxModule } from '../dropbox'
+import { Module } from '../../di'
 
-export const UploadModule = {
+export const UploadModule: Module = {
   name: 'Upload',
   providers: {
-    'config': null,
-    'dropboxSvc': null,
+    'config': { importFrom: null },
+    'dropboxSvc': { importFrom: 'Dropbox' },
     'uploadCtl': {
+      doExport: true,
       dependencies: ['dropboxSvc'],
       create: (dropbox) => new UploadController(dropbox),
     },
   },
-  submodules: [
-    DropboxModule,
-  ],
-  imports: {
-    'config': 'config',
-  },
-  exports: {
-    'uploadCtl': 'uploadCtl',
+  submodules: {
+    'Dropbox': { module: DropboxModule },
   },
 }

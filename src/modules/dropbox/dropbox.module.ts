@@ -1,10 +1,11 @@
 import { dropbox } from './services/dropbox'
+import { Module } from '../../di'
 
-export const DropboxModule = {
-  name: 'Dropbox',
+export const DropboxModule: Module = {
   providers: {
-    'config': null,
+    'config': { importFrom: null },
     'dropboxSvc': {
+      doExport: true,
       dependencies: ['config'],
       create: async (config) => {
         const dropboxSvc = dropbox
@@ -12,11 +13,5 @@ export const DropboxModule = {
         return dropboxSvc
       },
     },
-  },
-  imports: {
-    'config': 'config',
-  },
-  exports: {
-    'dropboxSvc': 'dropboxSvc',
   },
 }
