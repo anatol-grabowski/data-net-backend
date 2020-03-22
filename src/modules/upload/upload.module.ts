@@ -1,6 +1,6 @@
 import { UploadController } from './services/upload.controller'
 import { DropboxModule } from '../dropbox'
-import { Module } from '../../di'
+import { Module } from 'perfect-di'
 
 export const UploadModule: Module = {
   providers: {
@@ -9,7 +9,7 @@ export const UploadModule: Module = {
     'uploadCtl': {
       doExport: true,
       dependencies: ['dropboxSvc'],
-      create: (dropbox) => new UploadController(dropbox),
+      init: (dropbox) => new UploadController(dropbox),
     },
   },
   submodules: {

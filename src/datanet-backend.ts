@@ -1,4 +1,4 @@
-import { initModule } from './di'
+import { initModule } from 'perfect-di'
 import { MainModule } from './modules/main.module'
 
 async function start() {

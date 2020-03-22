@@ -1,5 +1,5 @@
 import { dropbox } from './services/dropbox'
-import { Module } from '../../di'
+import { Module } from 'perfect-di'
 
 export const DropboxModule: Module = {
   providers: {
@@ -7,7 +7,7 @@ export const DropboxModule: Module = {
     'dropboxSvc': {
       doExport: true,
       dependencies: ['config'],
-      create: async (config) => {
+      init: async (config) => {
         const dropboxSvc = dropbox
         await dropboxSvc.authenticate(config.dropboxAccessToken)
         return dropboxSvc

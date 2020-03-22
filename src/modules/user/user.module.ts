@@ -1,6 +1,6 @@
 import { UserRepository } from './services/user.repository'
 import { MongodbModule } from '../mongodb'
-import { Module } from '../../di'
+import { Module } from 'perfect-di'
 
 export const UserModule: Module = {
   providers: {
@@ -11,7 +11,7 @@ export const UserModule: Module = {
       dependencies: [
         'mongodbSvc',
       ],
-      create: (mongodbSvc) => new UserRepository(mongodbSvc.db),
+      init: (mongodbSvc) => new UserRepository(mongodbSvc.db),
     },
   },
   submodules: {

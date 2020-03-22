@@ -1,6 +1,6 @@
 import { GraphController } from './services/graph.controller'
 import { MongodbModule } from '../mongodb'
-import { Module } from '../../di'
+import { Module } from 'perfect-di'
 
 export const GraphModule: Module = {
   providers: {
@@ -13,7 +13,7 @@ export const GraphModule: Module = {
     'graphCtl': {
       doExport: true,
       dependencies: ['mongodbSvc'],
-      create: (mongodbSvc) => new GraphController(mongodbSvc),
+      init: (mongodbSvc) => new GraphController(mongodbSvc),
     },
   },
   submodules: {

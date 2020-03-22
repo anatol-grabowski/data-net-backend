@@ -1,4 +1,4 @@
-import { Module } from '../di/di'
+import { Module } from 'perfect-di'
 
 import { UserModule } from './user'
 import { ConfigModule } from './config'
@@ -13,7 +13,7 @@ export const MainModule: Module = {
     'apiService': { importFrom: 'Api' },
     'routers': {
       dependencies: ['graphCtl', 'uploadCtl'],
-      create: (graphCtl, uploadCtl) => [
+      init: (graphCtl, uploadCtl) => [
         graphCtl.router,
         uploadCtl.router,
       ],
