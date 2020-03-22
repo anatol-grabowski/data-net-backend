@@ -3,7 +3,6 @@ import { DropboxModule } from '../dropbox'
 import { Module } from '../../di'
 
 export const UploadModule: Module = {
-  name: 'Upload',
   providers: {
     'config': { importFrom: null },
     'dropboxSvc': { importFrom: 'Dropbox' },

@@ -3,7 +3,6 @@ import { MongodbModule } from '../mongodb'
 import { Module } from '../../di'
 
 export const GraphModule: Module = {
-  name: 'Graph',
   providers: {
     'config': {
       importFrom: null,

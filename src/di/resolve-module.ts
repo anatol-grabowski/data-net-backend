@@ -54,7 +54,7 @@ export function resolveProviderRecursive(
   const isVisited = visited.find(v => v === prov)
   if (isVisited) {
     visited.push(prov)
-    const cycle = visited.map(v => `${v.name}@${v.module.rawModule.name}`).join(' -> ')
+    const cycle = visited.map(v => `${v.name}@${v.module.nameInParent}`).join(' -> ')
     throw Error(`${errorMsg}, cyclic dependency (${cycle}).`)
   }
   visited.push(prov)
@@ -90,6 +90,7 @@ export function resolveProviderRecursive(
     }
   }
 }
+
 function resolveModRecursive(
   mod: ProcessedModule,
   map: Map<ProcessedProvider, ResolvedProvider> = new Map,

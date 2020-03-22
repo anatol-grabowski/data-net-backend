@@ -7,7 +7,6 @@ import { GraphModule } from './graph'
 import { UploadModule } from './upload'
 
 export const MainModule: Module = {
-  name: 'Main',
   providers: {
     'userRepo': { importFrom: 'User' },
     'config': { importFrom: 'Config' },

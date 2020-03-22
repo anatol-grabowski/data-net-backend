@@ -40,7 +40,6 @@ export interface Submodules {
 }
 
 export interface Module {
-  name?: string,
   providers: Providers,
   submodules?: Submodules,
 }

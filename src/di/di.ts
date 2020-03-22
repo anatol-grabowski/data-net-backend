@@ -12,6 +12,9 @@ import {
   resolveModule,
 } from './resolve-module'
 export { Module } from './process-module'
+import * as Debug from 'debug'
+
+const debug = Debug('di')
 
 /**
  * Assume there are no empty rawProviders in resolved providers.
@@ -23,10 +26,10 @@ export async function createSvcRecursive(
 ): Promise<Service> {
   const existingSvc = svcMap.get(prov)
   if (existingSvc) {
-    console.log(' '.repeat(depth) + `Initializing service '${prov.processedProvider.name} @ ${getModPath(prov.processedProvider.module)}' (reused existing).`)
+    debug(' '.repeat(depth) + `Initializing service '${prov.processedProvider.name} @ ${getModPath(prov.processedProvider.module)}' (reused existing).`)
     return existingSvc
   }
-  console.log(' '.repeat(depth) + `Initializing service '${prov.processedProvider.name} @ ${getModPath(prov.processedProvider.module)}'.`)
+  debug(' '.repeat(depth) + `Initializing service '${prov.processedProvider.name} @ ${getModPath(prov.processedProvider.module)}'.`)
   const depSvcs: Service[] = []
   for (const dep of prov.dependencies) {
     const depSvc = await createSvcRecursive(dep, svcMap, depth + 1)
@@ -38,7 +41,7 @@ export async function createSvcRecursive(
     return svc
   }
   catch (err) {
-    console.log(`Error during initialization of '${prov.processedProvider.name} @ ${getModPath(prov.processedProvider.module)}'.`)
+    debug(`Error during initialization of '${prov.processedProvider.name} @ ${getModPath(prov.processedProvider.module)}'.`)
     throw err
   }
 }
@@ -49,8 +52,15 @@ export interface InitializedModule {
   },
 }
 
-export async function initModule(mod: Module): Promise<InitializedModule> {
-  console.log('Module initialization.')
+export interface Options {
+  doLog: boolean,
+}
+
+export async function initModule(mod: Module, options: Options = { doLog: false } ): Promise<InitializedModule> {
+  if (options.doLog) {
+    debug.enabled = true
+  }
+  debug('Module initialization.')
   const provs = resolveModule(mod) // Assume that resolveModule returns only root module providers
   const svcMap = new Map
   const services = {}
@@ -60,10 +70,10 @@ export async function initModule(mod: Module): Promise<InitializedModule> {
       services[pr.processedProvider.name] = svc
     }
     catch (err) {
-      console.log(`Error during module initialization.`)
+      debug(`Error during module initialization.`)
       throw err
     }
   }
-  console.log('Module initialized ok.')
+  debug('Module initialized ok.')
   return { services }
 }

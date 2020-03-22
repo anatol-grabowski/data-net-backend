@@ -2,7 +2,6 @@ import { MongodbService } from './services/connection.service'
 import { Module } from '../../di'
 
 export const MongodbModule: Module = {
-  name: 'Mongodb',
   providers: {
     'config': {
       importFrom: null,
