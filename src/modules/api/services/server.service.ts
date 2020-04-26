@@ -11,6 +11,7 @@ export class ServerService {
     const server = http.createServer()
 
     server.on('upgrade', (request, socket, head) => {
+      console.log('upgrade to ws')
       wsServer.handleUpgrade(request, socket, head, (ws) => {
         wsServer.emit('connection', ws, request)
       })
