@@ -10,6 +10,7 @@
     "build": "tsc",
     "clean": "rm -rf ./build",
     "start": "node build/index.js",
+    "deploy": "git push -f heroku master",
     "watch": "nodemon --ext js,ts,json --watch . --exec ts-node -r dotenv/config ./src/index.js dotenv_config_path=./.env",
     "backup": "node -r dotenv/config scripts/backup-db.js"
   },
