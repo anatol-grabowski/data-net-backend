@@ -1,4 +1,4 @@
-import { ApiService } from './services/api.service'
+import { ServerService } from './services/server.service'
 import { Module } from 'perfect-di'
 
 export const ApiModule: Module = {
@@ -9,8 +9,8 @@ export const ApiModule: Module = {
       doExport: true,
       dependencies: ['config', 'routers'],
       init: async (config, routers) => {
-        const api = new ApiService(config, routers)
-        await api.listen()
+        const api = new ServerService()
+        await api.listen(config, routers)
         return api
       },
     },

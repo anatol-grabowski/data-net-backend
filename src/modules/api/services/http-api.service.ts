@@ -5,7 +5,7 @@ import * as cookieParser from 'cookie-parser'
 import { requestLoggerMiddleware, responseLoggerMiddleware } from '../middleware/logger.middleware'
 import { errorHandlerMiddleware } from '../middleware/error-handler.middleware'
 
-export class ApiService {
+export class HttpApiService {
   private app?: express.Application
 
   constructor(
@@ -13,6 +13,11 @@ export class ApiService {
     private readonly usedEndpoints: express.Router[],
   ) {
     this.createApp(this.usedEndpoints)
+  }
+
+  get handler(): express.Application {
+    if (!this.app) throw Error('handler not created')
+    return this.app
   }
 
   private createApp(usedEndpoints: express.Router[]) {
