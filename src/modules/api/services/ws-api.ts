@@ -12,6 +12,7 @@ function notify(ws, notification) {
     sessionId: notification.metadata,
     delta: notification.delta,
     numSubscribers: notification.numSubscribers,
+    updateNumber: notification.updateNumber,
     action: 'updated',
   }
   ws.send(JSON.stringify(message))
@@ -41,6 +42,9 @@ wss.on('connection', (ws) => {
     }
     if (msg.action === 'update') {
       collabJson.update(msg.graphId, msg.delta, msg.sessionId)
+    }
+    if (msg.action === 'unsubscribe') {
+      collabJson.unsubscribe(ws)
     }
   })
 
