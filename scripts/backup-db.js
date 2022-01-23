@@ -17,8 +17,7 @@ function parseMongodbUri(uri) {
 }
 
 async function mongoexportCollection(dbUri, collection, filename) {
-  const { username, password, host, db } = parseMongodbUri(dbUri)
-  const cmd = `mongoexport -h ${host} -d ${db} -c ${collection} -u ${username} -p ${password} -o ${filename}`
+  const cmd = `mongoexport --uri "${dbUri}" -c ${collection} -o ${filename}`
   console.log(cmd)
   const outs = await exec(cmd)
   console.log(outs)
